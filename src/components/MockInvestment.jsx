@@ -7,7 +7,8 @@ const MockInvestment = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isActiveInvestment, setIsActiveInvestment] = useState(false);
   const [investmentSettings, setInvestmentSettings] = useState({
-    totalAssets: '10000000',
+    totalAssets: '',
+    assetUnit: 'KRW', // 'KRW' or 'USD'
     startDate: '',
     endDate: '',
     riskLevel: 'medium'
@@ -131,6 +132,12 @@ const MockInvestment = () => {
     setShowPopup(false);
   };
 
+  const handleReturnToHome = () => {
+    setIsActiveInvestment(false);
+    setSelectedStock('삼성전자');
+    setSearchTerm('');
+  };
+
   // 기존 포트폴리오 목록 화면
   if (!isActiveInvestment) {
     return (
@@ -195,18 +202,31 @@ const MockInvestment = () => {
               <div className="investment-settings">
                 <div className="setting-group">
                   <label>총 자산</label>
-                  <select 
-                    value={investmentSettings.totalAssets}
-                    onChange={(e) => setInvestmentSettings({
-                      ...investmentSettings,
-                      totalAssets: e.target.value
-                    })}
-                  >
-                    <option value="5000000">₩5,000,000</option>
-                    <option value="10000000">₩10,000,000</option>
-                    <option value="20000000">₩20,000,000</option>
-                    <option value="50000000">₩50,000,000</option>
-                  </select>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <input
+                      type="number"
+                      min="0"
+                      placeholder="금액 입력"
+                      value={investmentSettings.totalAssets}
+                      onChange={e => setInvestmentSettings({
+                        ...investmentSettings,
+                        totalAssets: e.target.value
+                      })}
+                      className="asset-input"
+                      style={{ flex: 1 }}
+                    />
+                    <select
+                      value={investmentSettings.assetUnit}
+                      onChange={e => setInvestmentSettings({
+                        ...investmentSettings,
+                        assetUnit: e.target.value
+                      })}
+                      className="asset-unit-select"
+                    >
+                      <option value="KRW">KRW</option>
+                      <option value="USD">USD</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="setting-group">
@@ -272,8 +292,15 @@ const MockInvestment = () => {
   return (
     <div className="tab-content">
       <div className="content-header">
-        <h1>모의투자 진행중</h1>
-        <p>실제 시장 데이터를 기반으로 한 모의 투자 환경</p>
+        <div className="header-with-button">
+          <div className="header-content">
+            <h1>모의투자 진행중</h1>
+            <p>실제 시장 데이터를 기반으로 한 모의 투자 환경</p>
+          </div>
+          <button className="home-button" onClick={handleReturnToHome}>
+            모의투자 홈
+          </button>
+        </div>
       </div>
       
       <div className="investment-layout">

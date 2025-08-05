@@ -9,6 +9,39 @@
   padding: 0 20px;
 }
 
+.header-with-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.header-content {
+  flex: 1;
+  text-align: left;
+}
+
+.home-button {
+  background: linear-gradient(135deg, #2F2F3B 0%, #1E1E22 100%);
+  color: #F2F219;
+  border: 2px solid #F2F219;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.home-button:hover {
+  background: linear-gradient(135deg, #F2F219 0%, #FFDB2A 100%);
+  color: #1E1E22;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(242, 242, 25, 0.3);
+}
+
 .content-header h1 {
   font-size: 2.5rem;
   color: #FFFFFF;
@@ -56,6 +89,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid #3D3D3D;
+  width: 100%;
 }
 
 .content-card:hover {
@@ -502,6 +536,21 @@
   
   .content-header {
     padding: 0 15px;
+  }
+  
+  .header-with-button {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .header-content {
+    text-align: center;
+  }
+  
+  .home-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
   }
   
   .content-header h1 {
@@ -963,8 +1012,9 @@
 /* 기존 포트폴리오 목록 */
 .portfolio-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .portfolio-item {
@@ -973,6 +1023,9 @@
   padding: 20px;
   border: 1px solid #3D3D3D;
   transition: all 0.3s ease;
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
 }
 
 .portfolio-item:hover {
@@ -1022,10 +1075,9 @@
 
 .portfolio-info {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .portfolio-info span {
@@ -1048,10 +1100,8 @@
 
 .portfolio-dates {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .portfolio-dates span {
@@ -1192,6 +1242,43 @@
   cursor: pointer;
 }
 
+.setting-group .asset-input {
+  background: #1E1E22;
+  border: 1px solid #3D3D3D;
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: #FFFFFF;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  -moz-appearance: textfield;
+}
+
+.setting-group .asset-input::-webkit-outer-spin-button,
+.setting-group .asset-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.setting-group .asset-input:focus {
+  outline: none;
+  border-color: #F2F219;
+}
+.setting-group .asset-unit-select {
+  background: #2F2F3B;
+  border: 1px solid #3D3D3D;
+  border-radius: 8px;
+  color: #F2F219;
+  font-size: 1rem;
+  padding: 12px 18px 12px 12px;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+  height: 44px;
+}
+.setting-group .asset-unit-select:focus {
+  outline: none;
+  border-color: #F2F219;
+}
+
 .popup-buttons {
   display: flex;
   gap: 15px;
@@ -1246,6 +1333,15 @@
   .portfolio-info, .portfolio-dates {
     flex-direction: column;
     align-items: flex-start;
+  }
+  
+  .portfolio-list {
+    flex-direction: column;
+  }
+  
+  .portfolio-item {
+    min-width: auto;
+    max-width: none;
   }
   
   .popup-buttons {

@@ -13,6 +13,9 @@ body {
   background: #1E1E22;
   min-height: 100vh;
   color: #FFFFFF;
+  width: 100vw;
+  min-width: 100vw;
+  overflow-x: hidden;
 }
 
 .app {
@@ -20,11 +23,17 @@ body {
   display: flex;
   flex-direction: column;
   background: #1E1E22;
+  width: 100vw;
+  min-width: 100vw;
+  overflow-x: hidden;
 }
 
 .main-content {
   flex: 1;
   background: #1E1E22;
+  width: 100vw;
+  min-width: 100vw;
+  overflow-x: hidden;
 }
 
 /* 스크롤바 스타일링 */
