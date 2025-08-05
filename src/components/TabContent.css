@@ -402,7 +402,7 @@
 .news-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
 }
 
 .news-item {
@@ -587,7 +587,7 @@
 /* 모의투자 레이아웃 */
 .investment-layout {
   display: grid;
-  grid-template-columns: 1fr 500px;
+  grid-template-columns: 1fr 400px;
   gap: 30px;
   width: 100%;
   padding: 0 20px;
@@ -758,6 +758,7 @@
 .stock-list-container {
   max-height: 600px;
   overflow-y: auto;
+  overflow-x: hidden;
   border-radius: 8px;
 }
 
@@ -808,6 +809,9 @@
   padding: 2px 8px;
   border-radius: 10px;
   display: inline-block;
+  white-space: nowrap;
+  width: fit-content;
+  min-width: min-content;
 }
 
 .stock-price-change {
