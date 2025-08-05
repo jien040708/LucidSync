@@ -587,7 +587,7 @@
 /* 모의투자 레이아웃 */
 .investment-layout {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 1fr 500px;
   gap: 30px;
   width: 100%;
   padding: 0 20px;
@@ -756,7 +756,7 @@
 
 /* 주식 리스트 컨테이너 */
 .stock-list-container {
-  max-height: 500px;
+  max-height: 600px;
   overflow-y: auto;
   border-radius: 8px;
 }
@@ -844,6 +844,17 @@
 
 /* 반응형 디자인 */
 @media (max-width: 1200px) {
+  .investment-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .stock-list-section {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
   .investment-layout {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -1118,8 +1129,15 @@
 .new-investment-section p {
   color: #DCDCDC;
   font-size: 1.1rem;
-  margin-bottom: 30px;
+  margin-bottom: 0;
   line-height: 1.6;
+}
+
+/* 모의투자 시작 버튼 컨테이너 */
+.start-investment-container {
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 20px;
 }
 
 .start-investment-btn {

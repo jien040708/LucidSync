@@ -183,14 +183,19 @@ const MockInvestment = () => {
             <h3>새로운 모의투자 시작</h3>
             <div className="new-investment-section">
               <p>새로운 모의투자를 시작하여 실전 투자 경험을 쌓아보세요.</p>
-              <button 
-                className="start-investment-btn"
-                onClick={() => setShowPopup(true)}
-              >
-                모의투자 시작하기
-              </button>
             </div>
           </div>
+        </div>
+
+        {/* 모의투자 시작 버튼 - 포트폴리오 하단에 배치 */}
+        <div className="start-investment-container">
+          <button 
+            className="start-investment-btn"
+            onClick={() => setShowPopup(true)}
+          >
+            모의투자 시작하기
+          </button>
+        </div>
         </div>
 
         {/* 모의투자 시작 팝업 */}
