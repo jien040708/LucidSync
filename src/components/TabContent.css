@@ -402,7 +402,7 @@
 .news-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
 }
 
 .news-item {
@@ -756,8 +756,9 @@
 
 /* 주식 리스트 컨테이너 */
 .stock-list-container {
-  max-height: 500px;
+  max-height: 600px;
   overflow-y: auto;
+  overflow-x: hidden;
   border-radius: 8px;
 }
 
@@ -808,6 +809,9 @@
   padding: 2px 8px;
   border-radius: 10px;
   display: inline-block;
+  white-space: nowrap;
+  width: fit-content;
+  min-width: min-content;
 }
 
 .stock-price-change {
@@ -844,6 +848,17 @@
 
 /* 반응형 디자인 */
 @media (max-width: 1200px) {
+  .investment-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .stock-list-section {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
   .investment-layout {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -1118,8 +1133,15 @@
 .new-investment-section p {
   color: #DCDCDC;
   font-size: 1.1rem;
-  margin-bottom: 30px;
+  margin-bottom: 0;
   line-height: 1.6;
+}
+
+/* 모의투자 시작 버튼 컨테이너 */
+.start-investment-container {
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 20px;
 }
 
 .start-investment-btn {

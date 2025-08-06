@@ -7,6 +7,7 @@ const MockInvestment = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isActiveInvestment, setIsActiveInvestment] = useState(false);
   const [investmentSettings, setInvestmentSettings] = useState({
+    portfolioTitle: '',
     totalAssets: '',
     assetUnit: 'KRW', // 'KRW' or 'USD'
     startDate: '',
@@ -176,114 +177,52 @@ const MockInvestment = () => {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* 새로운 모의투자 시작 */}
-          <div className="content-card">
-            <h3>새로운 모의투자 시작</h3>
-            <div className="new-investment-section">
-              <p>새로운 모의투자를 시작하여 실전 투자 경험을 쌓아보세요.</p>
-              <button 
-                className="start-investment-btn"
-                onClick={() => setShowPopup(true)}
-              >
-                모의투자 시작하기
-              </button>
-            </div>
+            
+                         {/* 모의투자 시작 버튼 - 포트폴리오 카드 내부에 배치 */}
+             <div className="start-investment-container">
+               <button 
+                 className="start-investment-btn"
+                 onClick={() => setShowPopup(true)}
+               >
+                 새 모의투자 시작하기
+               </button>
+             </div>
           </div>
         </div>
 
-        {/* 모의투자 시작 팝업 */}
-        {showPopup && (
-          <div className="popup-overlay">
-            <div className="investment-popup">
-              <h3>새로운 모의투자 설정</h3>
-              
-              <div className="investment-settings">
-                <div className="setting-group">
-                  <label>총 자산</label>
-                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <input
-                      type="number"
-                      min="0"
-                      placeholder="금액 입력"
-                      value={investmentSettings.totalAssets}
-                      onChange={e => setInvestmentSettings({
-                        ...investmentSettings,
-                        totalAssets: e.target.value
-                      })}
-                      className="asset-input"
-                      style={{ flex: 1 }}
-                    />
-                    <select
-                      value={investmentSettings.assetUnit}
-                      onChange={e => setInvestmentSettings({
-                        ...investmentSettings,
-                        assetUnit: e.target.value
-                      })}
-                      className="asset-unit-select"
-                    >
-                      <option value="KRW">KRW</option>
-                      <option value="USD">USD</option>
-                    </select>
-                  </div>
-                </div>
+                 {/* 모의투자 시작 팝업 */}
+         {showPopup && (
+           <div className="popup-overlay">
+             <div className="investment-popup">
+               <h3>새로운 모의투자 설정</h3>
+               
+               <div className="investment-settings">
+                 <div className="setting-group">
+                   <label>포트폴리오 제목</label>
+                   <input
+                     type="text"
+                     placeholder="포트폴리오 제목을 입력하세요"
+                     value={investmentSettings.portfolioTitle}
+                     onChange={e => setInvestmentSettings({
+                       ...investmentSettings,
+                       portfolioTitle: e.target.value
+                     })}
+                     className="asset-input"
+                   />
+                 </div>
+               </div>
 
-                <div className="setting-group">
-                  <label>투자 시작일</label>
-                  <input
-                    type="date"
-                    value={investmentSettings.startDate}
-                    onChange={(e) => setInvestmentSettings({
-                      ...investmentSettings,
-                      startDate: e.target.value
-                    })}
-                    min={new Date().toISOString().split('T')[0]}
-                    className="date-input"
-                  />
-                </div>
-
-                <div className="setting-group">
-                  <label>투자 종료일</label>
-                  <input
-                    type="date"
-                    value={investmentSettings.endDate}
-                    onChange={(e) => setInvestmentSettings({
-                      ...investmentSettings,
-                      endDate: e.target.value
-                    })}
-                    min={investmentSettings.startDate || new Date().toISOString().split('T')[0]}
-                    className="date-input"
-                  />
-                </div>
-
-                <div className="setting-group">
-                  <label>위험 수준</label>
-                  <select 
-                    value={investmentSettings.riskLevel}
-                    onChange={(e) => setInvestmentSettings({
-                      ...investmentSettings,
-                      riskLevel: e.target.value
-                    })}
-                  >
-                    <option value="low">보수적</option>
-                    <option value="medium">중간</option>
-                    <option value="high">적극적</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="popup-buttons">
-                <button className="cancel-btn" onClick={handleCancelInvestment}>
-                  취소
-                </button>
-                <button className="start-btn" onClick={handleStartInvestment}>
-                  시작하기
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+               <div className="popup-buttons">
+                 <button className="cancel-btn" onClick={handleCancelInvestment}>
+                   취소
+                 </button>
+                 <button className="start-btn" onClick={handleStartInvestment}>
+                   시작하기
+                 </button>
+               </div>
+             </div>
+           </div>
+         )}
       </div>
     );
   }
