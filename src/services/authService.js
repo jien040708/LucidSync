@@ -53,6 +53,8 @@ export const authService = {
         localStorage.setItem('token', data.token);
       }
 
+
+
       return user;
     } catch (e) {
       if (e instanceof TypeError) {
@@ -70,6 +72,8 @@ export const authService = {
       const requestData = { user_id: userId, phone_number: phone, password };
       console.log('회원가입 요청 데이터:', requestData);
 
+
+
       const res = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,6 +81,7 @@ export const authService = {
       });
 
       console.log('회원가입 응답 상태:', res.status);
+
 
       if (!res.ok) {
         let msg = '회원가입에 실패했습니다';
@@ -96,6 +101,7 @@ export const authService = {
 
       const data = await res.json();
       console.log('회원가입 성공 응답:', data);
+
 
       // 회원가입 응답이 user를 주면 저장
       const user = normalizeUser(data?.user ?? data);
@@ -119,7 +125,6 @@ export const authService = {
           },
         });
       }
-
       // 로컬 스토리지 정리
       localStorage.removeItem('user');
       localStorage.removeItem('token');

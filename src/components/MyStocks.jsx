@@ -1,110 +1,215 @@
 import React, { useState } from 'react';
+import LiveQuotesList from './LiveQuotesList';
 import './TabContent.css';
 
-const MyStocks = () => {
-  const [selectedStock, setSelectedStock] = useState('삼성전자');
+const MyStocks = ({ user }) => {
+  const [listViewTab, setListViewTab] = useState('myStocks');
+  const [selectedStock, setSelectedStock] = useState('Apple');
+  const [currentStockData, setCurrentStockData] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [listViewTab, setListViewTab] = useState('myStocks'); // 리스트뷰 탭 상태
-
-  // 보유 주식 데이터
+  
+  // 보유 주식 데이터 (더미 데이터)
   const myStocks = [
-    { name: '삼성전자', price: '₩75,000', change: '+2.1%', changeType: 'positive', sector: '반도체', quantity: 10, avgPrice: '₩72,000', profit: '+₩30,000', profitRate: '+4.2%' },
-    { name: 'SK하이닉스', price: '₩125,000', change: '-1.3%', changeType: 'negative', sector: '반도체', quantity: 5, avgPrice: '₩128,000', profit: '-₩15,000', profitRate: '-2.3%' },
-    { name: 'NAVER', price: '₩220,000', change: '+0.8%', changeType: 'positive', sector: 'IT', quantity: 8, avgPrice: '₩215,000', profit: '+₩40,000', profitRate: '+2.3%' },
-    { name: '카카오', price: '₩45,000', change: '+1.2%', changeType: 'positive', sector: 'IT', quantity: 15, avgPrice: '₩42,000', profit: '+₩45,000', profitRate: '+7.1%' },
-    { name: 'LG화학', price: '₩450,000', change: '-0.5%', changeType: 'negative', sector: '화학', quantity: 3, avgPrice: '₩455,000', profit: '-₩15,000', profitRate: '-1.1%' },
-    { name: '현대차', price: '₩180,000', change: '+3.2%', changeType: 'positive', sector: '자동차', quantity: 7, avgPrice: '₩175,000', profit: '+₩35,000', profitRate: '+2.9%' },
-    { name: '기아', price: '₩85,000', change: '+2.8%', changeType: 'positive', sector: '자동차', quantity: 12, avgPrice: '₩82,000', profit: '+₩36,000', profitRate: '+3.7%' },
-    { name: 'POSCO홀딩스', price: '₩380,000', change: '-0.8%', changeType: 'negative', sector: '철강', quantity: 4, avgPrice: '₩385,000', profit: '-₩20,000', profitRate: '-1.3%' },
-    { name: 'LG전자', price: '₩95,000', change: '+1.5%', changeType: 'positive', sector: '전자', quantity: 9, avgPrice: '₩93,000', profit: '+₩18,000', profitRate: '+2.2%' },
-    { name: 'KB금융', price: '₩55,000', change: '+0.3%', changeType: 'positive', sector: '금융', quantity: 20, avgPrice: '₩54,500', profit: '+₩10,000', profitRate: '+0.9%' }
+    { symbol: 'AAPL', name: 'Apple', quantity: 10, avgPrice: 150.00, currentPrice: 175.43, change: 2.15 },
+    { symbol: 'MSFT', name: 'Microsoft', quantity: 5, avgPrice: 320.00, currentPrice: 338.11, change: -0.87 },
+    { symbol: 'GOOGL', name: 'Alphabet', quantity: 8, avgPrice: 135.00, currentPrice: 142.56, change: 1.23 },
+    { symbol: 'AMZN', name: 'Amazon', quantity: 12, avgPrice: 140.00, currentPrice: 145.24, change: 3.45 },
+    { symbol: 'NVDA', name: 'NVIDIA', quantity: 6, avgPrice: 450.00, currentPrice: 485.09, change: 5.67 }
   ];
 
-  // 전체 주식 데이터 (보유 주식 + 추가 주식)
-  const allStocks = [
-    // 보유 주식들
-    ...myStocks.map(stock => ({ ...stock, isHolding: true })),
-    
-    // 추가 주식들
-    { name: '테슬라', price: '₩280,000', change: '+5.2%', changeType: 'positive', sector: '자동차', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '애플', price: '₩320,000', change: '+1.8%', changeType: 'positive', sector: 'IT', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '마이크로소프트', price: '₩450,000', change: '+2.3%', changeType: 'positive', sector: 'IT', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '구글', price: '₩380,000', change: '+0.9%', changeType: 'positive', sector: 'IT', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '아마존', price: '₩520,000', change: '-1.2%', changeType: 'negative', sector: 'IT', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '넷플릭스', price: '₩180,000', change: '+3.1%', changeType: 'positive', sector: '미디어', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '페이팔', price: '₩95,000', change: '-0.7%', changeType: 'negative', sector: '금융', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '비자', price: '₩280,000', change: '+1.4%', changeType: 'positive', sector: '금융', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '존슨앤존슨', price: '₩320,000', change: '+0.6%', changeType: 'positive', sector: '제약', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '화이자', price: '₩85,000', change: '-2.1%', changeType: 'negative', sector: '제약', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '코카콜라', price: '₩120,000', change: '+0.8%', changeType: 'positive', sector: '소비재', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '프록터앤갬블', price: '₩180,000', change: '+1.2%', changeType: 'positive', sector: '소비재', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '월마트', price: '₩95,000', change: '-0.3%', changeType: 'negative', sector: '소매', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '홈디포', price: '₩220,000', change: '+2.7%', changeType: 'positive', sector: '소매', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '엑슨모빌', price: '₩180,000', change: '+1.9%', changeType: 'positive', sector: '에너지', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
-    { name: '셰브론', price: '₩160,000', change: '+1.5%', changeType: 'positive', sector: '에너지', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false }
-  ];
-
-  // 현재 표시할 주식 데이터
-  const currentStocks = listViewTab === 'myStocks' ? myStocks : allStocks;
-
-  // 검색 필터링
-  const filteredStocks = currentStocks.filter(stock => {
-    const matchesSearch = stock.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         stock.sector.toLowerCase().includes(searchTerm.toLowerCase());
+  // 검색 필터링 (보유 주식만)
+  const filteredMyStocks = myStocks.filter(stock => {
+    const matchesSearch = stock.name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
   });
 
-  // AI 분석 데이터
+  // 선택된 주식의 보유 데이터 찾기
+  const selectedStockData = myStocks.find(stock => stock.name === selectedStock);
+
+  const handleStockSelect = (stockName) => {
+    setSelectedStock(stockName);
+  };
+
+  // LiveQuotesList에서 주가 데이터를 받아오기 위한 콜백
+  const handleStockData = (stockData) => {
+    console.log('선택된 주식 데이터:', stockData);
+    setCurrentStockData(stockData);
+  };
+
+  // 주가 정보 포맷팅
+  const formatStockPrice = (stockData) => {
+    if (!stockData || !stockData.price) return '로딩 중...';
+    return `$${stockData.price.toLocaleString()}`;
+  };
+
+  const formatStockChange = (stockData) => {
+    if (!stockData) return '로딩 중...';
+    
+    // 달러 변화량 우선 사용
+    if (stockData.dollarChange !== null && stockData.dollarChange !== undefined) {
+      const sign = stockData.dollarChange > 0 ? '+' : (stockData.dollarChange < 0 ? '-' : '');
+      return `${sign}$${Math.abs(stockData.dollarChange).toFixed(2)}`;
+    }
+    
+    // 퍼센트 변화량 사용
+    if (typeof stockData.change === 'number') {
+      const sign = stockData.change > 0 ? '+' : (stockData.change < 0 ? '-' : '');
+      return `${sign}${Math.abs(stockData.change).toFixed(2)}%`;
+    }
+    
+    return '로딩 중...';
+  };
+
+  const getChangeClass = (stockData) => {
+    if (!stockData) return '';
+    
+    // 달러 변화량 우선 사용
+    if (stockData.dollarChange !== null && stockData.dollarChange !== undefined) {
+      return stockData.dollarChange >= 0 ? 'positive' : 'negative';
+    }
+    
+    // 퍼센트 변화량 사용
+    if (typeof stockData.change === 'number') {
+      return stockData.change >= 0 ? 'positive' : 'negative';
+    }
+    
+    return '';
+  };
+
+  // 보유 주식 리스트 렌더링
+  const renderMyStocksList = () => (
+    <>
+      {/* 검색 입력 */}
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="주식명으로 검색..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
+      
+      {/* 보유 주식 리스트 */}
+      <div className="stock-list-container" style={{ maxHeight: '600px', overflowY: 'auto' }}>
+        {filteredMyStocks.map((stock) => (
+          <div
+            key={stock.symbol}
+            className={`stock-list-item ${selectedStock === stock.name ? 'selected' : ''}`}
+            onClick={() => handleStockSelect(stock.name)}
+          >
+            <div className="stock-info">
+              <div className="stock-name-sector">
+                <span className="stock-name">{stock.name}</span>
+                <span className="stock-sector">보유: {stock.quantity}주</span>
+              </div>
+              <div className="stock-price-change">
+                <span className="stock-price">${stock.currentPrice.toLocaleString()}</span>
+                <span className={`stock-change ${stock.change >= 0 ? 'positive' : 'negative'}`}>
+                  {stock.change > 0 ? '+' : ''}{stock.change.toFixed(2)}%
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+
+  // 전체 주식 리스트 렌더링 (실시간 데이터)
+  const renderAllStocksList = () => (
+    <>
+      {/* 실시간 주식 리스트 */}
+      <div className="stock-list-container" style={{ maxHeight: '600px', overflowY: 'auto' }}>
+        <LiveQuotesList 
+          onStockSelect={handleStockSelect}
+          selectedStock={selectedStock}
+          onStockData={handleStockData}
+        />
+      </div>
+    </>
+  );
+
+  // AI 분석 데이터 (미국주)
   const aiAnalysis = {
-    삼성전자: {
+    Apple: {
       recommendation: '매수',
       confidence: '85%',
-      analysis: '반도체 업종의 회복세와 AI 수요 증가로 인해 삼성전자는 강력한 성장 동력을 보이고 있습니다. 메모리 반도체 가격 상승과 AI 칩 수요 증가가 주요 호재로 작용할 것으로 예상됩니다.',
+      analysis: 'Apple은 iPhone, Mac, iPad 등 프리미엄 제품 포트폴리오와 서비스 사업의 지속적인 성장으로 강력한 수익성을 보이고 있습니다. AI 기술 도입과 인도, 중국 등 신흥시장 진출이 주요 성장 동력입니다.',
       keyPoints: [
-        '메모리 반도체 가격 상승세 지속',
-        'AI 칩 수요 급증',
-        '글로벌 시장 점유율 확대',
-        '차세대 기술 개발 우위'
+        'iPhone 15 시리즈 성공적 출시',
+        '서비스 사업 매출 비중 확대',
+        'AI 기술 도입 가속화',
+        '신흥시장 진출 확대'
+      ],
+      riskFactors: [
+        '중국 시장 의존도',
+        '반도체 공급망 불확실성'
+      ]
+    },
+    Microsoft: {
+      recommendation: '매수',
+      confidence: '90%',
+      analysis: 'Microsoft는 Azure 클라우드 서비스와 AI 기술의 선도적 위치로 인해 지속적인 성장이 예상됩니다. OpenAI와의 파트너십과 Copilot 서비스가 주요 호재로 작용합니다.',
+      keyPoints: [
+        'Azure 클라우드 서비스 성장',
+        'AI 기술 선도적 위치',
+        'OpenAI 파트너십 강화',
+        'Copilot 서비스 확대'
+      ],
+      riskFactors: [
+        '클라우드 경쟁 심화',
+        '규제 환경 변화'
+      ]
+    },
+    NVIDIA: {
+      recommendation: '매수',
+      confidence: '95%',
+      analysis: 'AI 칩 수요 급증과 데이터센터 시장 확대로 NVIDIA는 가장 강력한 성장 동력을 보이고 있습니다. H100, H200 등 차세대 AI 칩의 독점적 우위가 주요 강점입니다.',
+      keyPoints: [
+        'AI 칩 시장 독점적 우위',
+        '데이터센터 수요 급증',
+        '차세대 H200 칩 출시',
+        '게임 시장 회복세'
       ],
       riskFactors: [
         '반도체 사이클 변동성',
-        '글로벌 경기 침체 우려'
-      ]
-    },
-    'SK하이닉스': {
-      recommendation: '관망',
-      confidence: '70%',
-      analysis: '반도체 업종의 회복세가 예상되지만, 단기적으로는 메모리 가격 변동성으로 인한 불확실성이 존재합니다. 장기적으로는 AI 수요 증가로 인한 성장 가능성이 높습니다.',
-      keyPoints: [
-        '메모리 가격 변동성 존재',
-        'AI 수요 증가 전망',
-        '기술 경쟁력 우수',
-        '장기 성장 가능성'
-      ],
-      riskFactors: [
-        '단기 가격 변동성',
         '경쟁사 기술 발전'
       ]
     },
-    NAVER: {
+    Tesla: {
+      recommendation: '관망',
+      confidence: '70%',
+      analysis: '전기차 시장의 선도적 위치는 유지하지만, 가격 경쟁과 수요 둔화로 인한 불확실성이 존재합니다. FSD 기술과 로봇택시 사업이 장기 성장 동력입니다.',
+      keyPoints: [
+        '전기차 시장 선도적 위치',
+        'FSD 기술 개발',
+        '로봇택시 사업 확장',
+        '글로벌 생산능력 확대'
+      ],
+      riskFactors: [
+        '가격 경쟁 심화',
+        '수요 둔화 우려'
+      ]
+    },
+    Amazon: {
       recommendation: '매수',
       confidence: '80%',
-      analysis: 'AI 기술 투자 확대와 플랫폼 사업의 안정적 성장으로 NAVER는 지속적인 성장이 예상됩니다. 특히 AI 분야에서의 기술적 우위가 주요 강점입니다.',
+      analysis: 'AWS 클라우드 서비스와 전자상거래 사업의 안정적 성장으로 Amazon은 지속적인 수익성 향상이 예상됩니다. AI 기술 투자와 광고 사업 확대가 주요 성장 동력입니다.',
       keyPoints: [
+        'AWS 클라우드 서비스 성장',
+        '전자상거래 시장 점유율 확대',
         'AI 기술 투자 확대',
-        '플랫폼 사업 안정성',
-        '글로벌 진출 가속화',
-        '신규 사업 확장'
+        '광고 사업 성장'
       ],
       riskFactors: [
         '규제 환경 변화',
-        '경쟁 심화'
+        '노동 비용 상승'
       ]
     }
   };
 
-  const currentAnalysis = aiAnalysis[selectedStock] || aiAnalysis['삼성전자'];
-  const selectedStockData = currentStocks.find(s => s.name === selectedStock);
+  const currentAnalysis = aiAnalysis[selectedStock] || aiAnalysis['Apple'];
 
   return (
     <div className="tab-content">
@@ -121,18 +226,18 @@ const MyStocks = () => {
             <div className="selected-stock-info">
               <h4>{selectedStock}</h4>
               <div className="stock-price-info">
-                <span className="current-price">{selectedStockData?.price}</span>
-                <span className={`price-change ${selectedStockData?.changeType}`}>
-                  {selectedStockData?.change}
+                <span className="current-price">{formatStockPrice(currentStockData)}</span>
+                <span className={`price-change ${getChangeClass(currentStockData)}`}>
+                  {formatStockChange(currentStockData)}
                 </span>
               </div>
-              {selectedStockData && selectedStockData.quantity > 0 && (
+              {listViewTab === 'myStocks' && selectedStockData && (
                 <div className="holding-details">
                   <div className="holding-summary">
                     <span>보유: {selectedStockData.quantity}주</span>
-                    <span>평균단가: {selectedStockData.avgPrice}</span>
-                    <span className={`profit ${selectedStockData.profitRate.startsWith('+') ? 'positive' : 'negative'}`}>
-                      {selectedStockData.profit} ({selectedStockData.profitRate})
+                    <span>평균단가: ${selectedStockData.avgPrice.toLocaleString()}</span>
+                    <span className={`profit ${selectedStockData.change >= 0 ? 'positive' : 'negative'}`}>
+                      수익률: {selectedStockData.change > 0 ? '+' : ''}{selectedStockData.change.toFixed(2)}%
                     </span>
                   </div>
                 </div>
@@ -167,7 +272,7 @@ const MyStocks = () => {
           </div>
         </div>
         
-        {/* 오른쪽: 보유 주식 리스트뷰 */}
+        {/* 오른쪽: 주식 리스트뷰 */}
         <div className="stock-list-section">
           <div className="content-card">
             <h3>주식 목록</h3>
@@ -188,51 +293,8 @@ const MyStocks = () => {
               </button>
             </div>
             
-            {/* 검색바 */}
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="주식명 또는 섹터로 검색..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="stock-search"
-              />
-            </div>
-            
-            {/* 주식 리스트 */}
-            <div className="stock-list-container">
-              {filteredStocks.map((stock, index) => (
-                <div
-                  key={index}
-                  className={`stock-list-item ${selectedStock === stock.name ? 'selected' : ''}`}
-                  onClick={() => setSelectedStock(stock.name)}
-                >
-                  <div className="stock-info">
-                    <div className="stock-name-sector">
-                      <span className="stock-name">
-                        {stock.name}
-                        {stock.isHolding && <span className="holding-badge">보유</span>}
-                      </span>
-                      <span className="stock-sector">{stock.sector}</span>
-                      {stock.quantity > 0 && (
-                        <span className="stock-quantity">보유: {stock.quantity}주</span>
-                      )}
-                    </div>
-                    <div className="stock-price-change">
-                      <span className="stock-price">{stock.price}</span>
-                      <span className={`stock-change ${stock.changeType}`}>
-                        {stock.change}
-                      </span>
-                      {stock.quantity > 0 && (
-                        <span className={`profit ${stock.profitRate.startsWith('+') ? 'positive' : 'negative'}`}>
-                          {stock.profit}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* 탭에 따른 리스트 렌더링 */}
+            {listViewTab === 'myStocks' ? renderMyStocksList() : renderAllStocksList()}
             
             {/* 매수/매도 버튼 */}
             <div className="trading-buttons">

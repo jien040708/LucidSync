@@ -30,7 +30,7 @@ const Navigation = ({ activeTab, onTabChange, user, onLogout }) => {
         </div>
         {user && (
           <div className="nav-user">
-            <span className="user-name">{user.userId}</span>
+            <span className="user-name">{user.user_id}</span>
             <button className="logout-button" onClick={onLogout}>
               로그아웃
             </button>

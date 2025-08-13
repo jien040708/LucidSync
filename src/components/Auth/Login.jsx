@@ -57,7 +57,11 @@ const Login = ({ onSwitchToSignup, onLogin, isLoading, error }) => {
         console.error('로그인 응답 형식 문제:', resUser);
         throw new Error('서버 응답 형식이 올바르지 않습니다 (id 누락)');
       }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 35436abe2b4dff2f123193073b83a8aa8810806e
       // 부모 컴포넌트의 onLogin 콜백 호출 - formData 전달
       if (onLogin) {
         onLogin(formData);

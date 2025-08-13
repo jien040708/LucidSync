@@ -1024,104 +1024,98 @@
   }
 } 
 
-/* 기존 포트폴리오 목록 */
+/* 포트폴리오 관련 스타일 */
 .portfolio-list {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .portfolio-item {
-  background: #1E1E22;
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #3D3D3D;
-  transition: all 0.3s ease;
-  flex: 1;
-  min-width: 300px;
-  max-width: 400px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  background: white;
+  transition: all 0.2s ease;
 }
 
 .portfolio-item:hover {
-  border-color: #F2F219;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
 
 .portfolio-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 0.5rem;
 }
 
 .portfolio-header h4 {
-  color: #FFFFFF;
-  font-size: 1.2rem;
-  font-weight: 600;
   margin: 0;
-}
-
-.status-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
+  color: #333;
+  font-size: 1.1rem;
   font-weight: 600;
 }
 
-.status-badge.active {
-  background: rgba(255, 219, 42, 0.2);
-  color: #FFDB2A;
-  border: 1px solid rgba(255, 219, 42, 0.3);
+.portfolio-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
-.status-badge.completed {
-  background: rgba(112, 112, 112, 0.2);
-  color: #707070;
-  border: 1px solid rgba(112, 112, 112, 0.3);
+.delete-btn {
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #ff3742;
 }
 
 .portfolio-details {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 .portfolio-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.portfolio-info span {
-  color: #DCDCDC;
+  gap: 0.25rem;
   font-size: 0.9rem;
+  color: #666;
 }
 
-.portfolio-info .profit {
-  font-weight: 600;
-  font-size: 1rem;
+.empty-portfolio {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
 }
 
-.portfolio-info .profit.positive {
-  color: #FFDB2A;
+.empty-portfolio p {
+  margin: 0.5rem 0;
 }
 
-.portfolio-info .profit.negative {
-  color: #FF0000;
+.error-message {
+  background: #ffe6e6;
+  color: #d63031;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #fab1a0;
 }
 
-.portfolio-dates {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.portfolio-dates span {
-  color: #707070;
-  font-size: 0.8rem;
+.loading-message {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
 }
 
 /* 새로운 모의투자 시작 섹션 */
