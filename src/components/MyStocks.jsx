@@ -4,6 +4,7 @@ import './TabContent.css';
 const MyStocks = () => {
   const [selectedStock, setSelectedStock] = useState('삼성전자');
   const [searchTerm, setSearchTerm] = useState('');
+  const [listViewTab, setListViewTab] = useState('myStocks'); // 리스트뷰 탭 상태
 
   // 보유 주식 데이터
   const myStocks = [
@@ -19,11 +20,39 @@ const MyStocks = () => {
     { name: 'KB금융', price: '₩55,000', change: '+0.3%', changeType: 'positive', sector: '금융', quantity: 20, avgPrice: '₩54,500', profit: '+₩10,000', profitRate: '+0.9%' }
   ];
 
+  // 전체 주식 데이터 (보유 주식 + 추가 주식)
+  const allStocks = [
+    // 보유 주식들
+    ...myStocks.map(stock => ({ ...stock, isHolding: true })),
+    
+    // 추가 주식들
+    { name: '테슬라', price: '₩280,000', change: '+5.2%', changeType: 'positive', sector: '자동차', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '애플', price: '₩320,000', change: '+1.8%', changeType: 'positive', sector: 'IT', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '마이크로소프트', price: '₩450,000', change: '+2.3%', changeType: 'positive', sector: 'IT', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '구글', price: '₩380,000', change: '+0.9%', changeType: 'positive', sector: 'IT', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '아마존', price: '₩520,000', change: '-1.2%', changeType: 'negative', sector: 'IT', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '넷플릭스', price: '₩180,000', change: '+3.1%', changeType: 'positive', sector: '미디어', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '페이팔', price: '₩95,000', change: '-0.7%', changeType: 'negative', sector: '금융', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '비자', price: '₩280,000', change: '+1.4%', changeType: 'positive', sector: '금융', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '존슨앤존슨', price: '₩320,000', change: '+0.6%', changeType: 'positive', sector: '제약', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '화이자', price: '₩85,000', change: '-2.1%', changeType: 'negative', sector: '제약', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '코카콜라', price: '₩120,000', change: '+0.8%', changeType: 'positive', sector: '소비재', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '프록터앤갬블', price: '₩180,000', change: '+1.2%', changeType: 'positive', sector: '소비재', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '월마트', price: '₩95,000', change: '-0.3%', changeType: 'negative', sector: '소매', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '홈디포', price: '₩220,000', change: '+2.7%', changeType: 'positive', sector: '소매', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '엑슨모빌', price: '₩180,000', change: '+1.9%', changeType: 'positive', sector: '에너지', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false },
+    { name: '셰브론', price: '₩160,000', change: '+1.5%', changeType: 'positive', sector: '에너지', quantity: 0, avgPrice: '-', profit: '-', profitRate: '-', isHolding: false }
+  ];
+
+  // 현재 표시할 주식 데이터
+  const currentStocks = listViewTab === 'myStocks' ? myStocks : allStocks;
+
   // 검색 필터링
-  const filteredStocks = myStocks.filter(stock =>
-    stock.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    stock.sector.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredStocks = currentStocks.filter(stock => {
+    const matchesSearch = stock.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         stock.sector.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
+  });
 
   // AI 분석 데이터
   const aiAnalysis = {
@@ -75,7 +104,7 @@ const MyStocks = () => {
   };
 
   const currentAnalysis = aiAnalysis[selectedStock] || aiAnalysis['삼성전자'];
-  const selectedStockData = myStocks.find(s => s.name === selectedStock);
+  const selectedStockData = currentStocks.find(s => s.name === selectedStock);
 
   return (
     <div className="tab-content">
@@ -97,7 +126,7 @@ const MyStocks = () => {
                   {selectedStockData?.change}
                 </span>
               </div>
-              {selectedStockData && (
+              {selectedStockData && selectedStockData.quantity > 0 && (
                 <div className="holding-details">
                   <div className="holding-summary">
                     <span>보유: {selectedStockData.quantity}주</span>
@@ -141,7 +170,23 @@ const MyStocks = () => {
         {/* 오른쪽: 보유 주식 리스트뷰 */}
         <div className="stock-list-section">
           <div className="content-card">
-            <h3>보유 주식 목록</h3>
+            <h3>주식 목록</h3>
+            
+            {/* 리스트뷰 탭 네비게이션 */}
+            <div className="list-view-tabs">
+              <button
+                className={`list-tab ${listViewTab === 'myStocks' ? 'active' : ''}`}
+                onClick={() => setListViewTab('myStocks')}
+              >
+                보유주식
+              </button>
+              <button
+                className={`list-tab ${listViewTab === 'allStocks' ? 'active' : ''}`}
+                onClick={() => setListViewTab('allStocks')}
+              >
+                전체주식
+              </button>
+            </div>
             
             {/* 검색바 */}
             <div className="search-container">
@@ -154,7 +199,7 @@ const MyStocks = () => {
               />
             </div>
             
-            {/* 보유 주식 리스트 */}
+            {/* 주식 리스트 */}
             <div className="stock-list-container">
               {filteredStocks.map((stock, index) => (
                 <div
@@ -164,18 +209,25 @@ const MyStocks = () => {
                 >
                   <div className="stock-info">
                     <div className="stock-name-sector">
-                      <span className="stock-name">{stock.name}</span>
+                      <span className="stock-name">
+                        {stock.name}
+                        {stock.isHolding && <span className="holding-badge">보유</span>}
+                      </span>
                       <span className="stock-sector">{stock.sector}</span>
-                      <span className="stock-quantity">보유: {stock.quantity}주</span>
+                      {stock.quantity > 0 && (
+                        <span className="stock-quantity">보유: {stock.quantity}주</span>
+                      )}
                     </div>
                     <div className="stock-price-change">
                       <span className="stock-price">{stock.price}</span>
                       <span className={`stock-change ${stock.changeType}`}>
                         {stock.change}
                       </span>
-                      <span className={`profit ${stock.profitRate.startsWith('+') ? 'positive' : 'negative'}`}>
-                        {stock.profit}
-                      </span>
+                      {stock.quantity > 0 && (
+                        <span className={`profit ${stock.profitRate.startsWith('+') ? 'positive' : 'negative'}`}>
+                          {stock.profit}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>

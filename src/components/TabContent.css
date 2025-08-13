@@ -1373,4 +1373,271 @@
   .cancel-btn, .start-btn {
     width: 100%;
   }
+}
+
+/* 주식 관리자 탭 네비게이션 */
+.stock-manager {
+  width: 100%;
+}
+
+.tab-navigation {
+  display: flex;
+  background: #2F2F3B;
+  border-radius: 12px;
+  padding: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid #3D3D3D;
+}
+
+.tab-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 20px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #DCDCDC;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-button:hover {
+  background: rgba(242, 242, 25, 0.1);
+  color: #F2F219;
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, #F2F219 0%, #FFDB2A 100%);
+  color: #1E1E22;
+  box-shadow: 0 4px 15px rgba(242, 242, 25, 0.3);
+  transform: translateY(-2px);
+}
+
+.tab-button.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.tab-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.tab-button:hover .tab-icon {
+  transform: scale(1.1);
+}
+
+.tab-button.active .tab-icon {
+  transform: scale(1.1);
+}
+
+.tab-label {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.tab-content-wrapper {
+  width: 100%;
+}
+
+/* 전체주식 컴포넌트 스타일 */
+.filter-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sector-filter {
+  min-width: 150px;
+}
+
+.sector-select {
+  width: 100%;
+  padding: 12px 15px;
+  background: #1E1E22;
+  border: 1px solid #3D3D3D;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.sector-select:focus {
+  outline: none;
+  border-color: #F2F219;
+}
+
+.sector-select option {
+  background: #1E1E22;
+  color: #FFFFFF;
+}
+
+.stock-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.buy-button.small, .sell-button.small {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  min-width: 60px;
+}
+
+.holding-badge {
+  background: rgba(242, 242, 25, 0.2);
+  color: #F2F219;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-left: 8px;
+  border: 1px solid rgba(242, 242, 25, 0.3);
+}
+
+.market-summary {
+  display: flex;
+  justify-content: space-around;
+  background: #1E1E22;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 25px;
+  border: 1px solid #3D3D3D;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+}
+
+.summary-label {
+  color: #DCDCDC;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.summary-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.summary-value.positive {
+  color: #FFDB2A;
+}
+
+.summary-value.negative {
+  color: #FF0000;
+}
+
+/* 반응형 탭 네비게이션 */
+@media (max-width: 768px) {
+  .tab-navigation {
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+  }
+  
+  .tab-button {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .tab-icon {
+    font-size: 1rem;
+  }
+  
+  .filter-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .sector-filter {
+    min-width: auto;
+  }
+  
+  .market-summary {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .summary-item {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .stock-actions {
+    justify-content: center;
+  }
+}
+
+/* 리스트뷰 탭 네비게이션 */
+.list-view-tabs {
+  display: flex;
+  background: #1E1E22;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #3D3D3D;
+}
+
+.list-tab {
+  flex: 1;
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #DCDCDC;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.list-tab:hover {
+  background: rgba(242, 242, 25, 0.1);
+  color: #F2F219;
+}
+
+.list-tab.active {
+  background: linear-gradient(135deg, #F2F219 0%, #FFDB2A 100%);
+  color: #1E1E22;
+  box-shadow: 0 2px 8px rgba(242, 242, 25, 0.3);
+}
+
+/* 반응형 리스트뷰 탭 */
+@media (max-width: 768px) {
+  .list-view-tabs {
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .list-tab {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
 } 
