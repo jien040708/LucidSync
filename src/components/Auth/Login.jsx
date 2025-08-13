@@ -43,9 +43,13 @@ const Login = ({ onSwitchToSignup, onLogin, isLoading, error }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  async function handleLogin() {
+  const handleLogin = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
     try {
-      const resUser = await authService.login(phone, password);
+      const resUser = await authService.login(formData.phone, formData.password);
       const user = resUser?.user ?? resUser;
   
       if (!user || user.id == null) {
@@ -53,11 +57,14 @@ const Login = ({ onSwitchToSignup, onLogin, isLoading, error }) => {
         throw new Error('서버 응답 형식이 올바르지 않습니다 (id 누락)');
       }
   
-      setUser(user);
-      setUserId(user.id);
+      // 부모 컴포넌트의 onLogin 콜백 호출
+      if (onLogin) {
+        onLogin(user);
+      }
       localStorage.setItem('user', JSON.stringify(user));
     } catch (e) {
       console.error('로그인 실패:', e);
+      setErrors({ general: e.message || '로그인에 실패했습니다.' });
     }
   };
 
@@ -74,9 +81,9 @@ const Login = ({ onSwitchToSignup, onLogin, isLoading, error }) => {
           <p>LucidSync에 오신 것을 환영합니다</p>
         </div>
         
-        {error && (
+        {(error || errors.general) && (
           <div className="auth-error">
-            <p>{error}</p>
+            <p>{error || errors.general}</p>
           </div>
         )}
         

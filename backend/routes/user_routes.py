@@ -22,7 +22,12 @@ def login(req: LoginIn, db: Session = Depends(get_db)):
     user = authenticate_user(db, req.phone_number, req.password)
     if not user:
         raise HTTPException(status_code=401, detail="전화번호 또는 비밀번호가 올바르지 않습니다.")
+    
+    # JWT 토큰 생성
+    access_token = create_access_token(user.user_id)
+    
     return {
+        "token": access_token,
         "user": {
             "id": user.id,
             "user_id": user.user_id,         
@@ -38,3 +43,14 @@ def logout():
 def me(current = Depends(get_current_user)):
     u = current
     return UserOut(user_id=u.user_id, phone_number=u.phone_number)
+
+@router.get("/validate")
+def validate_token(current = Depends(get_current_user)):
+    return {
+        "valid": True,
+        "user": {
+            "id": current.id,
+            "user_id": current.user_id,         
+            "phone_number": current.phone_number
+        }
+    }
