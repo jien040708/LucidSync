@@ -102,13 +102,13 @@ function App() {
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'mock-investment':
-        return <MockInvestment />
+        return <MockInvestment user={user} />
       case 'my-stocks':
         return <MyStocks />
       case 'news':
         return <News />
       default:
-        return <MockInvestment />
+        return <MockInvestment user={user} />
     }
   }
 
