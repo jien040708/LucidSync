@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navigation.css';
 
-const Navigation = ({ activeTab, onTabChange }) => {
+const Navigation = ({ activeTab, onTabChange, user, onLogout }) => {
   return (
     <nav className="navigation">
       <div className="nav-container">
@@ -28,6 +28,14 @@ const Navigation = ({ activeTab, onTabChange }) => {
             뉴스
           </button>
         </div>
+        {user && (
+          <div className="nav-user">
+            <span className="user-name">{user.userId}</span>
+            <button className="logout-button" onClick={onLogout}>
+              로그아웃
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   );

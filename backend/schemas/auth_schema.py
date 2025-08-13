@@ -8,14 +8,12 @@ class RegisterIn(BaseModel):
     password: str = Field(min_length=6)
 
 class LoginIn(BaseModel):
-    user_id: str
+    phone_number: str
     password: str
 
 class UserOut(BaseModel):
-    id: int
     user_id: str
     phone_number: str
-    created_at: Optional[datetime] = None
 
 class TokenOut(BaseModel):
     access_token: str

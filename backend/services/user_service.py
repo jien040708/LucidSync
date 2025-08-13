@@ -16,8 +16,11 @@ def create_user(db: Session, user_id: str, phone_number: str, password: str) -> 
     db.refresh(u)
     return u
 
-def authenticate_user(db: Session, user_id: str, password: str) -> User | None:
-    u = get_user_by_user_id(db, user_id)
+
+def authenticate_user(db, phone_number: str, password: str):
+    u = db.execute(
+        select(User).where(User.phone_number == phone_number)
+    ).scalar_one_or_none()
     if not u:
         return None
     if not bcrypt.verify(password, u.password_hash):
