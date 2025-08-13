@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { colors } from '../../theme/colors';
 import './Auth.css';
+import { authService } from '../../services/authService';
 
 const Login = ({ onSwitchToSignup, onLogin, isLoading, error }) => {
   const [formData, setFormData] = useState({
@@ -57,9 +58,9 @@ const Login = ({ onSwitchToSignup, onLogin, isLoading, error }) => {
         throw new Error('서버 응답 형식이 올바르지 않습니다 (id 누락)');
       }
   
-      // 부모 컴포넌트의 onLogin 콜백 호출
+      // 부모 컴포넌트의 onLogin 콜백 호출 - formData 전달
       if (onLogin) {
-        onLogin(user);
+        onLogin(formData);
       }
       localStorage.setItem('user', JSON.stringify(user));
     } catch (e) {

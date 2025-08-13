@@ -16,17 +16,17 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // 앱 시작 시 토큰 검증
+  // 앱 시작 시 사용자 정보 확인
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = () => {
       try {
-        const userData = await authService.validateToken()
-        if (userData) {
-          setUser(userData)
+        const currentUser = authService.getCurrentUser()
+        if (currentUser) {
+          setUser(currentUser)
           setIsAuthenticated(true)
         }
       } catch (error) {
-        console.error('토큰 검증 실패:', error)
+        console.error('사용자 정보 확인 실패:', error)
       } finally {
         setIsLoading(false)
       }
@@ -40,14 +40,10 @@ function App() {
     setError(null)
     
     try {
-      const response = await authService.login(loginData.phone, loginData.password)
+      const userData = await authService.login(loginData.phone, loginData.password)
       
-      // 사용자 정보 설정 (백엔드 응답 형식에 맞게)
-      setUser({
-        id: response.user.id,
-        userId: response.user.user_id || response.user.userId,
-        phone: response.user.phone_number || response.user.phone
-      })
+      // 사용자 정보 설정
+      setUser(userData)
       setIsAuthenticated(true)
     } catch (error) {
       console.error('로그인 실패:', error)
@@ -62,7 +58,7 @@ function App() {
     setError(null)
     
     try {
-      const response = await authService.signup(
+      await authService.signup(
         signupData.userId, 
         signupData.phone, 
         signupData.password
@@ -71,7 +67,7 @@ function App() {
       // 회원가입 성공 시 로그인 창으로 이동
       setAuthMode('login')
       setError(null)
-      // 성공 메시지 표시 (선택사항)
+      // 성공 메시지 표시
       alert('회원가입이 완료되었습니다. 로그인해주세요.')
     } catch (error) {
       console.error('회원가입 실패:', error)
