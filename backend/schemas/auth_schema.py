@@ -8,8 +8,8 @@ class RegisterIn(BaseModel):
     password: str = Field(min_length=6)
 
 class LoginIn(BaseModel):
-    phone_number: str
-    password: str
+    phone_number: str = Field(min_length=1)
+    password: str = Field(min_length=1)
 
 class UserOut(BaseModel):
     user_id: str
